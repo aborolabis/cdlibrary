@@ -1,4 +1,4 @@
-package pl.dominisz.cdlibrary;
+package pl.izabelak.cdlibrary;
 
 public enum Genre {
 

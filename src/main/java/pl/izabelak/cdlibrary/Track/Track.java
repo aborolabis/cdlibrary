@@ -1,4 +1,6 @@
-package pl.dominisz.cdlibrary;
+package pl.izabelak.cdlibrary.Track;
+
+import pl.izabelak.cdlibrary.Genre;
 
 public class Track {
 

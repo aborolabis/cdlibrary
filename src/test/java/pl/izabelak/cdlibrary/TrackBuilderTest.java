@@ -1,6 +1,8 @@
-package pl.dominisz.cdlibrary;
+package pl.izabelak.cdlibrary;
 
 import org.junit.jupiter.api.Test;
+import pl.izabelak.cdlibrary.Track.Track;
+import pl.izabelak.cdlibrary.Track.TrackBuilder;
 
 import static org.junit.jupiter.api.Assertions.*;
 

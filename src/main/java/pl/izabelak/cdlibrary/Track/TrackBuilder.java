@@ -1,8 +1,10 @@
-package pl.dominisz.cdlibrary;
+package pl.izabelak.cdlibrary.Track;
 
 // PRZYKLAD BUILDERA !!!!
 // Pola te same, konstruktor pusty, metody set zwracające typ klasy Buildera, przez co parametr wpisany jest do klasy (return).
 // Następnie ostatnia metoda - tworzenie tracka.
+
+import pl.izabelak.cdlibrary.Genre;
 
 public class TrackBuilder {
 

@@ -1,4 +1,4 @@
-package pl.dominisz.cdlibrary;
+package pl.izabelak.cdlibrary;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
