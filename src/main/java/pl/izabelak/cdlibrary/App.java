@@ -7,7 +7,11 @@ package pl.izabelak.cdlibrary;
 public class App {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        CDLibrary cdLibrary;
+        cdLibrary = new CDLibrary();
+        cdLibrary.loadFromFile();
+        cdLibrary.showMainMenu();
+        cdLibrary.saveToFile();
     }
 
 }
