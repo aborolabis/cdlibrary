@@ -4,6 +4,7 @@ import pl.izabelak.cdlibrary.CD.CD;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class CDLibrary {
 
@@ -21,7 +22,20 @@ public class CDLibrary {
 
     }
 
-    public void showMainMenu() {
-
+    public List <CD> getCDs(){
+        return CDs;
     }
+
+    public List <CD> findByAuthor(String author){
+        return new ArrayList<>();
+    }
+
+    public List <CD> findByTitle(String title){
+        return new ArrayList<>();
+    }
+
+    public List <CD> findByGenre(Genre genre){
+        return new ArrayList<>();
+    }
+
 }
