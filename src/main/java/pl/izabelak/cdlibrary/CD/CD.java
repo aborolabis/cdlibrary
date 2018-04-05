@@ -3,6 +3,7 @@ package pl.izabelak.cdlibrary.CD;
 import pl.izabelak.cdlibrary.Genre;
 import pl.izabelak.cdlibrary.Track.Track;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CD {
 
@@ -27,7 +28,21 @@ public class CD {
     }
 
     public int getTotalTime(){
-        return 0;
+        int totalTime = 0;
+        if(tracks != null){
+            for(int i = 0; i < tracks.size(); i++){
+                totalTime = totalTime + tracks.get(i).getTime();
+            }
+        }
+        return totalTime;
+    }
+
+    public int getTotalTimeStream(){
+        if(tracks != null) {
+            return tracks.stream().mapToInt(Track::getTime).sum();
+        } else {
+            return 0;
+        }
     }
 
     public String getTitle() {
