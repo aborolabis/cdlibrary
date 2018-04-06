@@ -1,6 +1,7 @@
 package pl.izabelak.cdlibrary.Track;
 
 import pl.izabelak.cdlibrary.Genre;
+import pl.izabelak.cdlibrary.TimeUtils;
 
 public class Track {
 
@@ -30,5 +31,12 @@ public class Track {
 
     public int getTime() {
         return time;
+    }
+
+    public String toString(){
+        return "Title: " + title + ", "
+                + "Author: " + author + ", "
+                + "Genre: " + genre.getDecrip() + ", "
+                + "Time: " + TimeUtils.getTimeToString(time) + ".";
     }
 }

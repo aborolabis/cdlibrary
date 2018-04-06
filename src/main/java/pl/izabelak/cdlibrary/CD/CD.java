@@ -1,7 +1,10 @@
 package pl.izabelak.cdlibrary.CD;
 
 import pl.izabelak.cdlibrary.Genre;
+import pl.izabelak.cdlibrary.TimeUtils;
 import pl.izabelak.cdlibrary.Track.Track;
+
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,6 +72,14 @@ public class CD {
         return isOriginal;
     }
 
+    public String isOriginalToString(){
+        if(isOriginal){
+            return "CD is original";
+        } else {
+            return "CD is not original";
+        }
+    }
+
     public int getDiscCount() {
         return discCount;
     }
@@ -76,4 +87,22 @@ public class CD {
     public List<Track> getTracks() {
         return tracks;
     }
+
+    public String toString(){
+        String text = "Title: " + title + "\n"
+                + "Author: " + author + "\n"
+                + "Released Year: " + releaseYear + "\n"
+                + "Producer: " + producer + "\n"
+                + "Genre: " + genre.getDecrip() + "\n"
+                + isOriginalToString() + "\n"
+                + "Disc Count: " + discCount + "\n"
+                + "Time: " + TimeUtils.getTimeToString(getTotalTime()) + "\n"
+                + "Tracks: ";
+        for(int i = 0; i < tracks.size(); i ++){
+            text = text + "\n" + (i+1) + ". " + tracks.get(i).toString();
+        }
+        text = text + "\n";
+        return text;
+    }
+
 }

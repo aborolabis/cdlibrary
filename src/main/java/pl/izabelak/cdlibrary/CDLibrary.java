@@ -1,14 +1,13 @@
 package pl.izabelak.cdlibrary;
 
 import pl.izabelak.cdlibrary.CD.CD;
+import pl.izabelak.cdlibrary.CD.CDBuilder;
 import pl.izabelak.cdlibrary.Track.Track;
+import pl.izabelak.cdlibrary.Track.TrackBuilder;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.nio.file.Path;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class CDLibrary {
 
@@ -20,8 +19,66 @@ public class CDLibrary {
     }
 
     public void loadFromFile(){
+        try{
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(FILENAME));
+            String line = bufferedReader.readLine();
+            int count = Integer.parseInt(line);
+            for(int i = 0; i < count; i++){
+                loadCDFromFile(bufferedReader);
+            }
+        } catch (IOException ex){
+            System.out.println("It cant be read. Try again later.");
+        }
 
     }
+
+    private void loadCDFromFile(BufferedReader bufferedReader) {
+        try {
+            String tittle = bufferedReader.readLine();
+            String author = bufferedReader.readLine();
+            int releasedYear = Integer.parseInt(bufferedReader.readLine());
+            String producer = bufferedReader.readLine();
+            Genre genre = Genre.valueOf(bufferedReader.readLine());
+            boolean isOriginal = Boolean.valueOf(bufferedReader.readLine());
+            int discCount = Integer.parseInt(bufferedReader.readLine());
+            int count = Integer.parseInt(bufferedReader.readLine());
+            List<Track> tracks = new ArrayList<>();
+            for(int i = 0; i < count; i++){
+                 Track track = loadTrackFromFile(bufferedReader);
+                 tracks.add(track);
+            }
+            CD cd = new CDBuilder()
+                    .setAuthor(author)
+                    .setTitle(tittle)
+                    .setReleaseYear(releasedYear)
+                    .setProducer(producer)
+                    .setGenre(genre)
+                    .setIsOriginal(isOriginal)
+                    .setDiscCount(discCount)
+                    .setTracks(tracks)
+                    .createCD();
+            CDs.add(cd);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Track loadTrackFromFile(BufferedReader bufferedReader) throws IOException {
+        String title = bufferedReader.readLine();
+        String author = bufferedReader.readLine();
+        Genre genre = Genre.valueOf(bufferedReader.readLine());
+        int time = Integer.valueOf(bufferedReader.readLine());
+
+        Track track = new TrackBuilder()
+                .setTitle(title)
+                .setAuthor(author)
+                .setTime(time)
+                .setGenre(genre)
+                .createTrack();
+
+        return track;
+    }
+
 
     public void saveToFile(){
         try{

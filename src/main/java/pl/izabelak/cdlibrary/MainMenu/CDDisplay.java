@@ -9,4 +9,6 @@ public class CDDisplay {
     public static void show(List<CD> listOfCDs){
         listOfCDs.forEach(System.out::println);
     }
+
+
 }
