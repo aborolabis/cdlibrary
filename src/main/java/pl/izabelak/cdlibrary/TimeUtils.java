@@ -4,14 +4,15 @@ public class TimeUtils {
 
     public static String getTimeToString(int seconds){
         int mins = seconds / 60;
-        int secondsLeft = seconds - (mins*60);
-        String secondsString = "";
-        if(secondsLeft < 10){
-            secondsString = "0" + secondsLeft;
+        int hours = mins / 60;
+        int secondsLeft = seconds - (mins*60) - (hours*60*60);
+        int minLeft = mins - (hours*60);
+
+        if(hours>0) {
+            return String.format("%02d:%02d:%02d", hours, minLeft, secondsLeft);
         } else {
-            secondsString = String.valueOf(secondsLeft);
+            return String.format("%02d:%02d", minLeft, secondsLeft);
         }
-        return mins + ":" + secondsString;
     }
 
 }

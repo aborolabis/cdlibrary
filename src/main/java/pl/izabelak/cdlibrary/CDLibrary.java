@@ -8,6 +8,8 @@ import pl.izabelak.cdlibrary.Track.TrackBuilder;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class CDLibrary {
 
@@ -120,15 +122,25 @@ public class CDLibrary {
     }
 
     public List <CD> findByAuthor(String author){
-        return new ArrayList<>();
+        String lowerCaseAuthor = author.toLowerCase();
+        List<CD> foundByAuthor = CDs.stream().filter(cd -> cd.getAuthor().toLowerCase().contains(lowerCaseAuthor)).collect(Collectors.toList());
+        return foundByAuthor;
+    }
+
+    public Set<String> findAllAuthors(){
+        Set<String> allAuthors = CDs.stream().map(cd -> cd.getAuthor()).collect(Collectors.toSet());
+        return allAuthors;
     }
 
     public List <CD> findByTitle(String title){
-        return new ArrayList<>();
+        String lowerCaseTitle = title.toLowerCase();
+        List<CD> foundByTitle = CDs.stream().filter(cd -> cd.getTitle().toLowerCase().contains(title)).collect(Collectors.toList());
+        return foundByTitle;
     }
 
     public List <CD> findByGenre(Genre genre){
-        return new ArrayList<>();
+        List<CD> foundByGenre = CDs.stream().filter(cd -> cd.getGenre().equals(genre)).collect(Collectors.toList());
+        return foundByGenre;
     }
 
 }

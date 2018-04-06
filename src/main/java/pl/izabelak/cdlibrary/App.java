@@ -21,7 +21,9 @@ public class App {
         while (!exit) {
             System.out.println("1. Add new CD");
             System.out.println("2. Show all CDs");
-            System.out.println("3. Exit");
+            System.out.println("3. Show all authors");
+            System.out.println("4. Find CDs by author");
+            System.out.println("5. Exit");
             int action = Integer.parseInt(sc.nextLine());
             switch(action){
                 case 1:
@@ -31,6 +33,11 @@ public class App {
                     CDDisplay.show(cdLibrary.getCDs());
                     break;
                 case 3:
+                    cdLibrary.findAllAuthors();
+                    break;
+                case 4:
+                    //
+                case 5:
                     exit = true;
                     break;
                     default:
