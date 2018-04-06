@@ -1,6 +1,7 @@
-package pl.izabelak.cdlibrary;
+package pl.izabelak.cdlibrary.Track;
 
 import org.junit.jupiter.api.Test;
+import pl.izabelak.cdlibrary.Genre;
 import pl.izabelak.cdlibrary.Track.Track;
 import pl.izabelak.cdlibrary.Track.TrackBuilder;
 
