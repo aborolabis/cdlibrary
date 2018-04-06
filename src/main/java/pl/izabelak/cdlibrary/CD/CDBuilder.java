@@ -53,7 +53,7 @@ public class CDBuilder {
     }
 
     public CDBuilder setTrack (Track track){
-        if(tracks == null) {
+        if(this.tracks == null) {
             this.tracks =  new ArrayList<>();
         }
         tracks.add(track);
@@ -61,7 +61,11 @@ public class CDBuilder {
     }
 
     public CDBuilder setTracks (List <Track> tracks){
-        this.tracks = tracks;
+        if(this.tracks == null) {
+            this.tracks = tracks;
+        } else {
+            this.tracks.addAll(tracks);
+        }
         return this;
     }
 

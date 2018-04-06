@@ -23,7 +23,6 @@ public class App {
             System.out.println("2. Show all CDs");
             System.out.println("3. Exit");
             int action = Integer.parseInt(sc.nextLine());
-            sc.nextLine();
             switch(action){
                 case 1:
                     newCD.addNewCD();

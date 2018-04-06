@@ -1,5 +1,7 @@
 package pl.izabelak.cdlibrary.MainMenu;
 
+import pl.izabelak.cdlibrary.CD.CD;
+import pl.izabelak.cdlibrary.CD.CDBuilder;
 import pl.izabelak.cdlibrary.CDLibrary;
 import pl.izabelak.cdlibrary.Genre;
 import pl.izabelak.cdlibrary.Track.Track;
@@ -35,6 +37,17 @@ public class CDReader {
         int discCount = Integer.parseInt(sc.nextLine());
         Genre genre = readGenre();
         List<Track> tracks = readTracks();
+        CD cd = new CDBuilder()
+                .setTitle(title)
+                .setAuthor(author)
+                .setReleaseYear(releasedTime)
+                .setProducer(producer)
+                .setIsOriginal(isOriginal)
+                .setDiscCount(discCount)
+                .setGenre(genre)
+                .setTracks(tracks)
+                .createCD();
+        cdLibrary.add(cd);
     }
 
     private List<Track> readTracks() {
