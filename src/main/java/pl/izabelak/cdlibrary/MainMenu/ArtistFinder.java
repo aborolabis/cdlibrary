@@ -3,6 +3,7 @@ package pl.izabelak.cdlibrary.MainMenu;
 import pl.izabelak.cdlibrary.CD.CD;
 import pl.izabelak.cdlibrary.CDLibrary;
 import pl.izabelak.cdlibrary.MainMenu.CDDisplay;
+import pl.izabelak.cdlibrary.Track.Track;
 
 import java.util.List;
 import java.util.Scanner;
@@ -32,5 +33,13 @@ public class ArtistFinder {
         Set<String> allAuthors = cdLibrary.findAllAuthors();
         allAuthors.forEach(author -> System.out.println("- " + author));
         System.out.println();
+    }
+
+    public void findTrackByAuthor() {
+        System.out.println("Wyszukiwanie piosenek po wykonawcy:");
+        System.out.println("Podaj nazwe artysty:");
+        String author = scanner.nextLine();
+        List<Track> trackByAuthors = cdLibrary.findTrackByAuthors(author);
+        TrackDisplay.show(trackByAuthors);
     }
 }

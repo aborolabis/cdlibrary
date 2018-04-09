@@ -23,13 +23,15 @@ public class App {
         cdLibrary.loadFromFile();
         boolean exit = false;
         while (!exit) {
+            System.out.println();
             System.out.println("1. Add new CD");
             System.out.println("2. Show all CDs");
             System.out.println("3. Show all authors");
             System.out.println("4. Find CDs by author");
             System.out.println("5. Find CDs by title");
             System.out.println("6. Find tracks by title");
-            System.out.println("7. Exit");
+            System.out.println("7. Find tracks by author");
+            System.out.println("8. Exit");
             int action = Integer.parseInt(sc.nextLine());
             switch(action){
                 case 1:
@@ -51,9 +53,13 @@ public class App {
                     titleFinder.findTrack();
                     break;
                 case 7:
+                    artistFinder.findTrackByAuthor();
+                    break;
+                case 8:
                     exit = true;
                     break;
-                    default:
+                default:
+                        System.out.println("Incorrect answear - try again.");
                         continue;
             }
         }

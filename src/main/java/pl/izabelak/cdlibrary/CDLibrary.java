@@ -141,8 +141,14 @@ public class CDLibrary {
 
     public List<Track> findTrackByTitle(String title){
         List<Track> trackByTitle = CDs.stream().flatMap(cd -> cd.getTracks().stream().filter(track -> track.getTitle()
-                .equals(title))).collect(Collectors.toList());
+                .contains(title))).collect(Collectors.toList());
         return trackByTitle;
+    }
+
+    public List<Track> findTrackByAuthors(String author){
+        List<Track> trackByAuthor = CDs.stream().flatMap(cd -> cd.getTracks().stream().filter(track -> track.getAuthor()
+                .contains(author))).collect(Collectors.toList());
+        return trackByAuthor;
     }
 
     public List <CD> findByGenre(Genre genre){
