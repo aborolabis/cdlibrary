@@ -151,8 +151,13 @@ public class CDLibrary {
         return trackByAuthor;
     }
 
-    public List <CD> findByGenre(Genre genre){
+    public List <CD> findCDByGenre(Genre genre){
         List<CD> foundByGenre = CDs.stream().filter(cd -> cd.getGenre().equals(genre)).collect(Collectors.toList());
+        return foundByGenre;
+    }
+
+    public List <Track> findTracksByGenre(Genre genre){
+        List<Track> foundByGenre = CDs.stream().flatMap(cd -> cd.getTracks().stream().filter(track -> track.getGenre().equals(genre))).collect(Collectors.toList());
         return foundByGenre;
     }
 

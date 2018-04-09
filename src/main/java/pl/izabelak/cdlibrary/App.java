@@ -1,9 +1,6 @@
 package pl.izabelak.cdlibrary;
 
-import pl.izabelak.cdlibrary.MainMenu.ArtistFinder;
-import pl.izabelak.cdlibrary.MainMenu.CDDisplay;
-import pl.izabelak.cdlibrary.MainMenu.CDReader;
-import pl.izabelak.cdlibrary.MainMenu.TitleFinder;
+import pl.izabelak.cdlibrary.MainMenu.*;
 
 import java.util.Scanner;
 
@@ -18,6 +15,7 @@ public class App {
     private CDReader newCD = new CDReader(cdLibrary, sc);
     private ArtistFinder artistFinder = new ArtistFinder(cdLibrary, sc);
     private TitleFinder titleFinder = new TitleFinder(cdLibrary, sc);
+    private GenreFinder genreFinder = new GenreFinder(cdLibrary, sc);
 
     public void showMainMenu() {
         cdLibrary.loadFromFile();
@@ -31,7 +29,9 @@ public class App {
             System.out.println("5. Find CDs by title");
             System.out.println("6. Find tracks by title");
             System.out.println("7. Find tracks by author");
-            System.out.println("8. Exit");
+            System.out.println("8. Find CDs by genre");
+            System.out.println("9. Find Tracks by genre");
+            System.out.println("0. Exit");
             int action = Integer.parseInt(sc.nextLine());
             switch(action){
                 case 1:
@@ -56,6 +56,12 @@ public class App {
                     artistFinder.findTrackByAuthor();
                     break;
                 case 8:
+                    genreFinder.findCD();
+                    break;
+                case 9:
+                    genreFinder.findTrack();
+                    break;
+                case 0:
                     exit = true;
                     break;
                 default:
