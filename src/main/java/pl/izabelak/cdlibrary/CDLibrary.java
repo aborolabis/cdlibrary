@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CDLibrary {
 
@@ -136,6 +137,12 @@ public class CDLibrary {
         String lowerCaseTitle = title.toLowerCase();
         List<CD> foundByTitle = CDs.stream().filter(cd -> cd.getTitle().toLowerCase().contains(title)).collect(Collectors.toList());
         return foundByTitle;
+    }
+
+    public List<Track> findTrackByTitle(String title){
+        List<Track> trackByTitle = CDs.stream().flatMap(cd -> cd.getTracks().stream().filter(track -> track.getTitle()
+                .equals(title))).collect(Collectors.toList());
+        return trackByTitle;
     }
 
     public List <CD> findByGenre(Genre genre){
