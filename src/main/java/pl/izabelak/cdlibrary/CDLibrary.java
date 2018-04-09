@@ -140,14 +140,24 @@ public class CDLibrary {
     }
 
     public List<Track> findTrackByTitle(String title){
+        String lowerCaseTitle = title.toLowerCase();
         List<Track> trackByTitle = CDs.stream().flatMap(cd -> cd.getTracks().stream().filter(track -> track.getTitle()
-                .contains(title))).collect(Collectors.toList());
+                .contains(lowerCaseTitle))).collect(Collectors.toList());
         return trackByTitle;
     }
 
+    public List<CD> findCDByTitle(String title){
+        String lowerCaseTitle = title.toLowerCase();
+        List<CD> CDbyTrackTitle = CDs.stream().filter(cd -> cd.getTracks().stream()
+                .anyMatch(track -> track.getTitle().contains(lowerCaseTitle)))
+                .collect(Collectors.toList());
+        return CDbyTrackTitle;
+    }
+
     public List<Track> findTrackByAuthors(String author){
+        String lowerCaseAuthor = author.toLowerCase();
         List<Track> trackByAuthor = CDs.stream().flatMap(cd -> cd.getTracks().stream().filter(track -> track.getAuthor()
-                .contains(author))).collect(Collectors.toList());
+                .contains(lowerCaseAuthor))).collect(Collectors.toList());
         return trackByAuthor;
     }
 
