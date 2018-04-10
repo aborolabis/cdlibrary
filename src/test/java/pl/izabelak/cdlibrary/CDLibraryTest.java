@@ -207,16 +207,28 @@ class CDLibraryTest {
         }
     }
 
-    @Test void testSaveToFile() throws IOException {
+    @Test
+    void testSaveToFile() throws IOException {
         String savedLibrary = this.getClass().getResource("/").getPath();
         cdLibrary.saveToFile(savedLibrary + "savedLibrary.txt");
         File savedFile = new File(savedLibrary + "savedLibrary.txt");
-        
+
         String testLibrary = this.getClass().getResource("/testLibrary.txt").getPath();
         File testFile = new File(testLibrary);
 
         FileUtils.contentEquals(savedFile, testFile);
+    }
 
+    @Test
+    void testAddCD(){
+        CDLibrary testCDLibrary = new CDLibrary();
+        assertTrue(testCDLibrary.getCDs().isEmpty());
+        CD cd = createCD(testCD1);
+        testCDLibrary.add(cd);
+
+
+        assertEquals(1, testCDLibrary.getCDs().size());
+        assertEquals(cd, testCDLibrary.getCDs().get(0));
     }
 
 
