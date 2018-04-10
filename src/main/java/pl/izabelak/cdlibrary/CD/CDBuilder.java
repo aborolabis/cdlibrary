@@ -15,7 +15,7 @@ public class CDBuilder {
     private Genre genre;
     private boolean isOriginal;
     private int discCount;
-    private List<Track> tracks;
+    private List<Track> tracks = new ArrayList<>();
 
     public CDBuilder setTitle (String title){
         this.title = title;

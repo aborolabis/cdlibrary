@@ -10,6 +10,7 @@ import java.util.Scanner;
  */
 public class App {
 
+    private static final String FILENAME = "cdlibrary.txt";
     private CDLibrary cdLibrary = new CDLibrary();
     private Scanner sc = new Scanner(System.in);
     private CDReader newCD = new CDReader(cdLibrary, sc);
@@ -18,7 +19,7 @@ public class App {
     private GenreFinder genreFinder = new GenreFinder(cdLibrary, sc);
 
     public void showMainMenu() {
-        cdLibrary.loadFromFile();
+        cdLibrary.loadFromFile(FILENAME);
         boolean exit = false;
         while (!exit) {
             System.out.println();
@@ -69,7 +70,7 @@ public class App {
                         continue;
             }
         }
-        cdLibrary.saveToFile();
+        cdLibrary.saveToFile(FILENAME);
     }
 
     public static void main(String[] args) {

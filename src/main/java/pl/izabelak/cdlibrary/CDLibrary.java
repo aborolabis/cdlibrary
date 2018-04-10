@@ -14,14 +14,13 @@ import java.util.stream.Stream;
 
 public class CDLibrary {
 
-    private static final String FILENAME = "cdLibrary.txt";
     private List<CD> CDs = new ArrayList<>();
 
     public void add(CD cd){
         CDs.add(cd);
     }
 
-    public void loadFromFile(){
+    public void loadFromFile(String FILENAME){
         try{
             BufferedReader bufferedReader = new BufferedReader(new FileReader(FILENAME));
             String line = bufferedReader.readLine();
@@ -83,7 +82,7 @@ public class CDLibrary {
     }
 
 
-    public void saveToFile(){
+    public void saveToFile(String FILENAME){
         try{
             PrintWriter out = new PrintWriter(FILENAME);
             out.println(CDs.size());
@@ -146,7 +145,7 @@ public class CDLibrary {
         return trackByTitle;
     }
 
-    public List<CD> findCDByTitle(String title){
+    public List<CD> findCDByTrackTitle(String title){
         String lowerCaseTitle = title.toLowerCase();
         List<CD> CDbyTrackTitle = CDs.stream().filter(cd -> cd.getTracks().stream()
                 .anyMatch(track -> track.getTitle().contains(lowerCaseTitle)))

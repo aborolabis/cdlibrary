@@ -6,6 +6,7 @@ import pl.izabelak.cdlibrary.Track.Track;
 
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class CD {
@@ -105,4 +106,24 @@ public class CD {
         return text;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CD cd = (CD) o;
+        return releaseYear == cd.releaseYear &&
+                isOriginal == cd.isOriginal &&
+                discCount == cd.discCount &&
+                Objects.equals(title, cd.title) &&
+                Objects.equals(author, cd.author) &&
+                Objects.equals(producer, cd.producer) &&
+                genre == cd.genre &&
+                Objects.equals(tracks, cd.tracks);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(title, author, releaseYear, producer, genre, isOriginal, discCount, tracks);
+    }
 }
