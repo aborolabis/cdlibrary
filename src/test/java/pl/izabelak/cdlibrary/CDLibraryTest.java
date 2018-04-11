@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.izabelak.cdlibrary.CD.CD;
 import pl.izabelak.cdlibrary.CD.CDBuilder;
+import pl.izabelak.cdlibrary.MainMenu.UUIDFinder;
 import pl.izabelak.cdlibrary.Track.Track;
 import pl.izabelak.cdlibrary.Track.TrackBuilder;
 
@@ -12,22 +13,20 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class CDLibraryTest {
 
     CDLibrary cdLibrary = new CDLibrary();
-    String testTrack1 = "title1;horse;120;JAZZ";
-    String testTrack2 = "title2;horse;160;JAZZ";
-    String testTrack3 = "minnie;mickey;210;POP";
-    String testTrack4 = "donald;mickey;120;POP";
+    String testTrack1 = "title1;horse;120;2;JAZZ;POP";
+    String testTrack2 = "title2;horse;160;2;JAZZ;METAL";
+    String testTrack3 = "minnie;mickey;210;2;SOUL;POP";
+    String testTrack4 = "donald;mickey;120;2;SOUL;POP";
 
-    String testCD1 = "original title;horse;producer;JAZZ;true;2001;1";
-    String testCD2 = "pack of animals;mickey;producer;POP;false;2011;1";
+    String testCD1 = "58e82453-4371-4965-8896-233fb3099bba;original title;horse;producer;true;2001;1";
+    String testCD2 = "5562625a-3da0-11e8-b467-0ed5f89f718b;pack of animals;mickey;producer;false;2011;1";
 
     @BeforeEach
     void setup() {
@@ -47,10 +46,10 @@ class CDLibraryTest {
     CD createCD(String testCD) {
         String[] splitedTestString = testCD.split(";");
         CD cd = new CDBuilder()
-                .setTitle(splitedTestString[0])
-                .setAuthor(splitedTestString[1])
-                .setProducer(splitedTestString[2])
-                .setGenre(Genre.valueOf(splitedTestString[3]))
+                .setUuid(UUID.fromString(splitedTestString[0]))
+                .setTitle(splitedTestString[1])
+                .setAuthor(splitedTestString[2])
+                .setProducer(splitedTestString[3])
                 .setIsOriginal(Boolean.valueOf(splitedTestString[4]))
                 .setReleaseYear(Integer.parseInt(splitedTestString[5]))
                 .setDiscCount(Integer.parseInt(splitedTestString[6]))
@@ -60,11 +59,15 @@ class CDLibraryTest {
 
     Track createTrack(String testTrack) {
         String[] splitedTestTrack = testTrack.split(";");
+        Set <Genre> genres = new HashSet<>();
+        for(int i = 0; i < Integer.valueOf(splitedTestTrack[3]); i++){
+            genres.add(Genre.valueOf(splitedTestTrack[i+4]));
+        }
         Track track = new TrackBuilder()
                 .setTitle(splitedTestTrack[0])
                 .setAuthor(splitedTestTrack[1])
                 .setTime(Integer.valueOf(splitedTestTrack[2]))
-                .setGenre(Genre.valueOf(splitedTestTrack[3]))
+                .setGenres(genres)
                 .createTrack();
         return track;
     }
@@ -75,7 +78,7 @@ class CDLibraryTest {
         List<CD> cdByGenre = cdLibrary.findCDByGenre(genre);
 
         assertEquals(1, cdByGenre.size());
-        assertEquals(genre, cdByGenre.get(0).getGenre());
+        assertTrue(cdByGenre.get(0).getGenres().contains(genre));
     }
 
     @Test
@@ -92,8 +95,8 @@ class CDLibraryTest {
         List<Track> tracksByGenre = cdLibrary.findTracksByGenre(genre);
 
         assertEquals(2, tracksByGenre.size());
-        assertEquals(genre, tracksByGenre.get(0).getGenre());
-        assertEquals(genre, tracksByGenre.get(1).getGenre());
+        assertTrue(tracksByGenre.get(0).getGenres().contains(genre));
+        assertTrue(tracksByGenre.get(1).getGenres().contains(genre));
     }
 
     @Test
@@ -192,18 +195,13 @@ class CDLibraryTest {
 
 
     @Test
-    public void testLoadFromFile(){
+    public void testLoadFromFile() {
         CDLibrary libraryFromFile = new CDLibrary();
-        String file = this.getClass().getResource("/testLibrary.txt").getPath();
-        libraryFromFile.loadFromFile(file);
-
+        String path = this.getClass().getResource("/testlibrary.txt").getPath();
+        libraryFromFile.loadFromFile(path);
         assertEquals(cdLibrary.getCDs().size(), libraryFromFile.getCDs().size());
-        for(int i = 0; i < cdLibrary.getCDs().size(); i++){
+        for (int i = 0; i < cdLibrary.getCDs().size(); i++) {
             assertEquals(cdLibrary.getCDs().get(i), libraryFromFile.getCDs().get(i));
-            assertEquals(cdLibrary.getCDs().get(i).getTracks().size(), libraryFromFile.getCDs().get(i).getTracks().size());
-            for(int j = 0; j < cdLibrary.getCDs().get(i).getTracks().size(); j++){
-                assertEquals(cdLibrary.getCDs().get(i).getTracks().get(j), libraryFromFile.getCDs().get(i).getTracks().get(j));
-            }
         }
     }
 
@@ -229,6 +227,23 @@ class CDLibraryTest {
 
         assertEquals(1, testCDLibrary.getCDs().size());
         assertEquals(cd, testCDLibrary.getCDs().get(0));
+    }
+
+    @Test
+    void shouldFindOneCDByUUID(){
+        UUID uuid = UUID.fromString("58e82453-4371-4965-8896-233fb3099bba");
+        Optional<CD> cdByUUID = cdLibrary.findCDByUUID(uuid);
+
+        assertTrue(cdByUUID.isPresent());
+        assertEquals(uuid, cdByUUID.get().getUuid());
+    }
+
+    @Test
+    void shouldFindNoneCDBYUUID(){
+        UUID uuid = UUID.randomUUID();
+        Optional<CD> cdByUUID = cdLibrary.findCDByUUID(uuid);
+
+        assertFalse(cdByUUID.isPresent());
     }
 
 

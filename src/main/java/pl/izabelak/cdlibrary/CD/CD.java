@@ -1,5 +1,6 @@
 package pl.izabelak.cdlibrary.CD;
 
+import com.sun.java.swing.plaf.windows.WindowsTreeUI;
 import pl.izabelak.cdlibrary.Genre;
 import pl.izabelak.cdlibrary.TimeUtils;
 import pl.izabelak.cdlibrary.Track.Track;
@@ -7,28 +8,34 @@ import pl.izabelak.cdlibrary.Track.Track;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class CD {
 
+    private UUID uuid;
     private String title;
     private String author;
     private int releaseYear;
     private String producer;
-    private Genre genre;
     private boolean isOriginal;
     private int discCount;
     private List<Track> tracks;
 
-    public CD(String title, String author, int releaseYear, String producer, Genre genre, boolean isOriginal, int discCount, List<Track> tracks) {
+    public CD(UUID uuid, String title, String author, int releaseYear, String producer, boolean isOriginal, int discCount, List<Track> tracks) {
+        this.uuid = uuid;
         this.title = title;
         this.author = author;
         this.releaseYear = releaseYear;
         this.producer = producer;
-        this.genre = genre;
         this.isOriginal = isOriginal;
         this.discCount = discCount;
         this.tracks = tracks;
+    }
+
+    public UUID getUuid() {
+        return uuid;
     }
 
     public int getTotalTime(){
@@ -65,8 +72,12 @@ public class CD {
         return producer;
     }
 
-    public Genre getGenre() {
-        return genre;
+    public Set <Genre> getGenres() {
+        if(tracks != null) {
+            return tracks.stream().flatMap(track -> track.getGenres().stream()).collect(Collectors.toSet());
+        } else {
+            return null;
+        }
     }
 
     public boolean isOriginal() {
@@ -90,15 +101,19 @@ public class CD {
     }
 
     public String toString(){
-        String text = "Title: " + title + "\n"
+        String text = "UUID: " + uuid + "\n"
+                + "Title: " + title + "\n"
                 + "Author: " + author + "\n"
                 + "Released Year: " + releaseYear + "\n"
                 + "Producer: " + producer + "\n"
-                + "Genre: " + genre.getDecrip() + "\n"
                 + isOriginalToString() + "\n"
                 + "Disc Count: " + discCount + "\n"
                 + "Time: " + TimeUtils.getTimeToString(getTotalTime()) + "\n"
-                + "Tracks: ";
+                + "Genres: " + "\n";
+        for(int i = 0; i < tracks.size(); i++){
+            text = text + tracks.get(i).getGenresToString() + ", ";
+        }
+                text = text + "\n" + "Tracks: ";
         for(int i = 0; i < tracks.size(); i ++){
             text = text + "\n" + (i+1) + ". " + tracks.get(i).toString();
         }
@@ -117,13 +132,13 @@ public class CD {
                 Objects.equals(title, cd.title) &&
                 Objects.equals(author, cd.author) &&
                 Objects.equals(producer, cd.producer) &&
-                genre == cd.genre &&
-                Objects.equals(tracks, cd.tracks);
+                Objects.equals(tracks, cd.tracks) &&
+                uuid.equals(cd.uuid);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(title, author, releaseYear, producer, genre, isOriginal, discCount, tracks);
+        return Objects.hash(title, author, releaseYear, producer, isOriginal, discCount, tracks, uuid);
     }
 }

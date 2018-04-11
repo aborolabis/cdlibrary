@@ -44,7 +44,6 @@ class CDTest {
                 .setAuthor(author)
                 .setReleaseYear(releaseYear)
                 .setProducer(producer)
-                .setGenre(genre)
                 .setIsOriginal(isOriginal)
                 .setTrack(track)
                 .setTrack(track2)
@@ -72,5 +71,38 @@ class CDTest {
         int totalTime = cd.getTotalTimeStream();
 
         assertEquals(totalTime, 210);
+    }
+
+    @Test
+    void testToString(){
+        Track track1 = new TrackBuilder()
+                .setTitle("title")
+                .setAuthor("author")
+                .setTime(123)
+                .setGenre(Genre.BLUES)
+                .setGenre(Genre.JAZZ)
+                .createTrack();
+
+        Track track2 = new TrackBuilder()
+                .setTitle("ttt")
+                .setAuthor("author")
+                .setTime(562)
+                .setGenre(Genre.ROCK)
+                .setGenre(Genre.POP)
+                .createTrack();
+
+        CD newCD = new CDBuilder()
+                .setTitle("tter")
+                .setAuthor("author")
+                .setProducer("producer")
+                .setReleaseYear(2011)
+                .setIsOriginal(true)
+                .setDiscCount(1)
+                .setTrack(track1)
+                .setTrack(track2)
+                .createCD();
+
+        String s = newCD.toString();
+        System.out.println(s);
     }
 }

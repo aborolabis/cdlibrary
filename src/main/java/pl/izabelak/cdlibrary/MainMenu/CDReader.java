@@ -7,9 +7,7 @@ import pl.izabelak.cdlibrary.Genre;
 import pl.izabelak.cdlibrary.Track.Track;
 import pl.izabelak.cdlibrary.Track.TrackBuilder;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class CDReader {
 
@@ -35,7 +33,6 @@ public class CDReader {
         boolean isOriginal = "Y".equals(sc.nextLine());
         System.out.println("How many disc has the album?");
         int discCount = Integer.parseInt(sc.nextLine());
-        Genre genre = readGenre();
         List<Track> tracks = readTracks();
         CD cd = new CDBuilder()
                 .setTitle(title)
@@ -44,7 +41,6 @@ public class CDReader {
                 .setProducer(producer)
                 .setIsOriginal(isOriginal)
                 .setDiscCount(discCount)
-                .setGenre(genre)
                 .setTracks(tracks)
                 .createCD();
         cdLibrary.add(cd);
@@ -64,27 +60,33 @@ public class CDReader {
         System.out.println("Adding new track:");
         System.out.println("Write the title of the track");
         String title = sc.nextLine();
-        System.out.println("Write the time of the track in seconds");
-        int time = Integer.parseInt(sc.nextLine());
         System.out.println("Write an author of this track");
         String author = sc.nextLine();
-        Genre genre = readGenre();
+        System.out.println("Write the time of the track in seconds");
+        int time = Integer.parseInt(sc.nextLine());
+        Set <Genre> genres = readGenres();
         return new TrackBuilder()
                 .setTitle(title)
                 .setAuthor(author)
                 .setTime(time)
-                .setGenre(genre)
+                .setGenres(genres)
                 .createTrack();
     }
 
-    private Genre readGenre() {
-        Genre[] genres = Genre.values();
-               for (int i = 0; i < genres.length; i++) {
-                   System.out.println((i + 1) + " " + genres[i].getDecrip());
-               }
-               System.out.println("Choose number:");
-               int number = Integer.parseInt(sc.nextLine());
-               return genres[number - 1];
+    private Set<Genre> readGenres() {
+        Set<Genre> setOfGenres = new HashSet<>();
+        System.out.println("How many genres has your track?");
+        int genresCount = Integer.parseInt(sc.nextLine());
+        for(int j = 0; j < genresCount; j++) {
+            Genre[] genres = Genre.values();
+            for (int i = 0; i < genres.length; i++) {
+                System.out.println((i + 1) + " " + genres[i].getDecrip());
+            }
+            System.out.println("Choose number:");
+            int number = Integer.parseInt(sc.nextLine());
+            setOfGenres.add(genres[number - 1]);
+        }
+        return setOfGenres;
     }
 
 }

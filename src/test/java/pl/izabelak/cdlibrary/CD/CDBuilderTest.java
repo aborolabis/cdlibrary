@@ -5,6 +5,9 @@ import pl.izabelak.cdlibrary.Genre;
 import pl.izabelak.cdlibrary.Track.Track;
 import pl.izabelak.cdlibrary.Track.TrackBuilder;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CDBuilderTest {
@@ -17,28 +20,46 @@ class CDBuilderTest {
         String author = "author";
         int releaseYear = 2001;
         String producer = "Warner Bross";
+
         Genre genre = Genre.JAZZ;
+        Genre genre2  = Genre.DISCO;
+        Set<Genre> genres = new HashSet<>();
+        genres.add(genre);
+        genres.add(genre2);
+
+        Genre genre3 = Genre.HIP_HOP;
+        Genre genre4  = Genre.TECHNO;
+        Set<Genre> genres2 = new HashSet<>();
+        genres2.add(genre3);
+        genres2.add(genre4);
+
+        Genre genre5 = Genre.METAL;
+        Genre genre6  = Genre.POP;
+        Set<Genre> genres3 = new HashSet<>();
+        genres3.add(genre5);
+        genres3.add(genre6);
+
         boolean isOriginal = true;
         int discCount = 1;
 
         Track track = new TrackBuilder()
                 .setTitle("title1")
                 .setAuthor(author)
-                .setGenre(genre)
+                .setGenres(genres)
                 .setTime(30)
                 .createTrack();
 
         Track track2 = new TrackBuilder()
                 .setTitle("title2")
                 .setAuthor(author)
-                .setGenre(genre)
+                .setGenres(genres2)
                 .setTime(100)
                 .createTrack();
 
         Track track3 = new TrackBuilder()
                 .setTitle("title3")
                 .setAuthor(author)
-                .setGenre(genre)
+                .setGenres(genres3)
                 .setTime(80)
                 .createTrack();
 
@@ -47,7 +68,6 @@ class CDBuilderTest {
                 .setAuthor(author)
                 .setReleaseYear(releaseYear)
                 .setProducer(producer)
-                .setGenre(genre)
                 .setIsOriginal(isOriginal)
                 .setTrack(track)
                 .setTrack(track2)
@@ -58,11 +78,13 @@ class CDBuilderTest {
         assertEquals(author, cd.getAuthor());
         assertEquals(releaseYear, cd.getReleaseYear());
         assertEquals(producer, cd.getProducer());
-        assertEquals(genre, cd.getGenre());
         assertEquals(isOriginal, cd.isOriginal());
         assertEquals("title1", cd.getTracks().get(0).getTitle());
         assertEquals("title2", cd.getTracks().get(1).getTitle());
         assertEquals("title3", cd.getTracks().get(2).getTitle());
+        assertEquals(genres, cd.getTracks().get(0).getGenres());
+        assertEquals(genres2, cd.getTracks().get(1).getGenres());
+        assertEquals(genres3, cd.getTracks().get(2).getGenres());
     }
 
     @Test

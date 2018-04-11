@@ -6,11 +6,14 @@ package pl.izabelak.cdlibrary.Track;
 
 import pl.izabelak.cdlibrary.Genre;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class TrackBuilder {
 
     private String title;
     private String author;
-    private Genre genre;
+    private Set<Genre> genres;
     private int time;
 
     public TrackBuilder() {
@@ -26,8 +29,16 @@ public class TrackBuilder {
         return this;
     }
 
-    public TrackBuilder setGenre(Genre genre){
-        this.genre = genre;
+    public TrackBuilder setGenres(Set <Genre> genres){
+        this.genres = genres;
+        return this;
+    }
+
+    public TrackBuilder setGenre (Genre genre) {
+        if (this.genres == null) {
+            this.genres = new HashSet<>();
+        }
+        this.genres.add(genre);
         return this;
     }
 
@@ -37,6 +48,6 @@ public class TrackBuilder {
     }
 
     public Track createTrack() {
-        return new Track (title, author, genre, time);
+        return new Track (title, author, genres, time);
     }
 }

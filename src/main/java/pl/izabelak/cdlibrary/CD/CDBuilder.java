@@ -1,18 +1,18 @@
 package pl.izabelak.cdlibrary.CD;
 
-import pl.izabelak.cdlibrary.Genre;
 import pl.izabelak.cdlibrary.Track.Track;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class CDBuilder {
 
+    private UUID uuid;
     private String title;
     private String author;
     private int releaseYear;
     private String producer;
-    private Genre genre;
     private boolean isOriginal;
     private int discCount;
     private List<Track> tracks = new ArrayList<>();
@@ -27,6 +27,11 @@ public class CDBuilder {
         return this;
     }
 
+    public CDBuilder setUuid(UUID uuid) {
+        this.uuid = uuid;
+        return this;
+    }
+
     public CDBuilder setReleaseYear (int releaseYear){
         this.releaseYear = releaseYear;
         return this;
@@ -37,10 +42,6 @@ public class CDBuilder {
         return this;
     }
 
-    public CDBuilder setGenre (Genre genre){
-        this.genre = genre;
-        return this;
-    }
 
     public CDBuilder setIsOriginal (boolean isOriginal){
         this.isOriginal = isOriginal;
@@ -70,6 +71,6 @@ public class CDBuilder {
     }
 
     public CD createCD (){
-        return new CD (title, author, releaseYear, producer, genre, isOriginal, discCount, tracks);
+        return new CD (uuid, title, author, releaseYear, producer, isOriginal, discCount, tracks);
     }
 }

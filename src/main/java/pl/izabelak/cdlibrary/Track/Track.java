@@ -4,18 +4,21 @@ import pl.izabelak.cdlibrary.Genre;
 import pl.izabelak.cdlibrary.TimeUtils;
 
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Track {
 
     private String title;
     private String author;
-    private Genre genre;
+    private Set<Genre> genres;
     private int time;
 
-    public Track(String title, String author, Genre genre, int time) {
+    public Track(String title, String author, Set <Genre> genres, int time) {
         this.title = title;
         this.author = author;
-        this.genre = genre;
+        this.genres = genres;
         this.time = time;
     }
 
@@ -27,18 +30,22 @@ public class Track {
         return author;
     }
 
-    public Genre getGenre() {
-        return genre;
+    public Set <Genre> getGenres() {
+        return genres;
     }
 
     public int getTime() {
         return time;
     }
 
+    public String getGenresToString(){
+         return genres.stream().map(Genre::getDecrip).collect(Collectors.joining(", "));
+    }
+
     public String toString(){
         return "Title: " + title + ", "
                 + "Author: " + author + ", "
-                + "Genre: " + genre.getDecrip() + ", "
+                + "Genre: " + getGenresToString() + ", "
                 + "Time: " + TimeUtils.getTimeToString(time) + ".";
     }
 
@@ -50,13 +57,13 @@ public class Track {
         return time == track.time &&
                 Objects.equals(title, track.title) &&
                 Objects.equals(author, track.author) &&
-                genre == track.genre;
+                Objects.equals(genres, track.genres);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(title, author, genre, time);
+        return Objects.hash(title, author, genres, time);
     }
 
 }

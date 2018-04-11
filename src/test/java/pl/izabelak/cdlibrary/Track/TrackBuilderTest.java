@@ -5,6 +5,9 @@ import pl.izabelak.cdlibrary.Genre;
 import pl.izabelak.cdlibrary.Track.Track;
 import pl.izabelak.cdlibrary.Track.TrackBuilder;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class TrackBuilderTest {
@@ -14,19 +17,23 @@ class TrackBuilderTest {
         String title = "title";
         String author = "author";
         Genre genre = Genre.ROCK;
+        Genre genre2 = Genre.CLASSICAL;
+        Set<Genre> setOfGenres = new HashSet<>();
+        setOfGenres.add(genre);
+        setOfGenres.add(genre2);
         int time = 100;
 
         Track track = new TrackBuilder()
                 .setTitle(title)
                 .setAuthor(author)
-                .setGenre(genre)
+                .setGenres(setOfGenres)
                 .setTime(time)
                 .createTrack();
 
 
         assertEquals(title, track.getTitle());
         assertEquals(author, track.getAuthor());
-        assertEquals(genre, track.getGenre());
+        assertEquals(setOfGenres, track.getGenres());
         assertEquals(time, track.getTime());
     }
 
@@ -42,7 +49,7 @@ class TrackBuilderTest {
 
         assertEquals(null, track.getTitle());
         assertEquals(author, track.getAuthor());
-        assertEquals(null, track.getGenre());
+        assertEquals(null, track.getGenres());
         assertEquals(time, track.getTime());
     }
 }

@@ -11,4 +11,8 @@ public class CDDisplay {
     public static void show(List<CD> listOfCDs){
         listOfCDs.forEach(System.out::println);
     }
+
+    public static void show(CD cd){
+        System.out.println(cd.toString());
+    }
 }

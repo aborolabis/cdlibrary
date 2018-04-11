@@ -17,6 +17,7 @@ public class App {
     private ArtistFinder artistFinder = new ArtistFinder(cdLibrary, sc);
     private TitleFinder titleFinder = new TitleFinder(cdLibrary, sc);
     private GenreFinder genreFinder = new GenreFinder(cdLibrary, sc);
+    private UUIDFinder uuidFinder = new UUIDFinder(cdLibrary, sc);
 
     public void showMainMenu() {
         cdLibrary.loadFromFile(FILENAME);
@@ -32,6 +33,7 @@ public class App {
             System.out.println("7. Find tracks by author");
             System.out.println("8. Find CDs by genre");
             System.out.println("9. Find Tracks by genre");
+            System.out.println("10. Find CD by UUID");
             System.out.println("0. Exit");
             int action = Integer.parseInt(sc.nextLine());
             switch(action){
@@ -61,6 +63,9 @@ public class App {
                     break;
                 case 9:
                     genreFinder.findTrack();
+                    break;
+                case 10:
+                    uuidFinder.findCDByUUID();
                     break;
                 case 0:
                     exit = true;

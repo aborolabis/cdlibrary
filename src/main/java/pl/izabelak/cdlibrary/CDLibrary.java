@@ -6,9 +6,7 @@ import pl.izabelak.cdlibrary.Track.Track;
 import pl.izabelak.cdlibrary.Track.TrackBuilder;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -21,26 +19,25 @@ public class CDLibrary {
     }
 
     public void loadFromFile(String FILENAME){
-        try{
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(FILENAME));
-            String line = bufferedReader.readLine();
-            int count = Integer.parseInt(line);
-            for(int i = 0; i < count; i++){
-                loadCDFromFile(bufferedReader);
+            try {
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(FILENAME));
+                String line = bufferedReader.readLine();
+                int count = Integer.parseInt(line);
+                for (int i = 0; i < count; i++) {
+                    loadCDFromFile(bufferedReader);
+                }
+            } catch (IOException ex) {
+                System.out.println("It cant be read. Try again later.");
             }
-        } catch (IOException ex){
-            System.out.println("It cant be read. Try again later.");
-        }
-
     }
 
     private void loadCDFromFile(BufferedReader bufferedReader) {
         try {
+            UUID uuid = UUID.fromString(bufferedReader.readLine());
             String tittle = bufferedReader.readLine();
             String author = bufferedReader.readLine();
             int releasedYear = Integer.parseInt(bufferedReader.readLine());
             String producer = bufferedReader.readLine();
-            Genre genre = Genre.valueOf(bufferedReader.readLine());
             boolean isOriginal = Boolean.valueOf(bufferedReader.readLine());
             int discCount = Integer.parseInt(bufferedReader.readLine());
             int count = Integer.parseInt(bufferedReader.readLine());
@@ -50,15 +47,16 @@ public class CDLibrary {
                  tracks.add(track);
             }
             CD cd = new CDBuilder()
+                    .setUuid(uuid)
                     .setAuthor(author)
                     .setTitle(tittle)
                     .setReleaseYear(releasedYear)
                     .setProducer(producer)
-                    .setGenre(genre)
                     .setIsOriginal(isOriginal)
                     .setDiscCount(discCount)
                     .setTracks(tracks)
                     .createCD();
+
             CDs.add(cd);
         } catch (IOException e) {
             e.printStackTrace();
@@ -68,14 +66,18 @@ public class CDLibrary {
     private Track loadTrackFromFile(BufferedReader bufferedReader) throws IOException {
         String title = bufferedReader.readLine();
         String author = bufferedReader.readLine();
-        Genre genre = Genre.valueOf(bufferedReader.readLine());
         int time = Integer.valueOf(bufferedReader.readLine());
+        int count = Integer.parseInt(bufferedReader.readLine());
+        Set<Genre> genres = new HashSet<>();
+        for(int i=0; i < count; i++){
+            genres.add(Genre.valueOf(bufferedReader.readLine()));
+        }
 
         Track track = new TrackBuilder()
                 .setTitle(title)
                 .setAuthor(author)
                 .setTime(time)
-                .setGenre(genre)
+                .setGenres(genres)
                 .createTrack();
 
         return track;
@@ -96,11 +98,11 @@ public class CDLibrary {
     }
 
     private void saveCDtoFile(PrintWriter out, CD cd) {
+        out.println(cd.getUuid());
         out.println(cd.getTitle());
         out.println(cd.getAuthor());
         out.println(cd.getReleaseYear());
         out.println(cd.getProducer());
-        out.println(cd.getGenre());
         out.println(cd.isOriginal());
         out.println(cd.getDiscCount());
         List<Track> tracks = cd.getTracks();
@@ -113,8 +115,13 @@ public class CDLibrary {
     private void saveTracktoFile(PrintWriter out, Track track) {
         out.println(track.getTitle());
         out.println(track.getAuthor());
-        out.println(track.getGenre());
         out.println(track.getTime());
+        out.println(track.getGenres().size());
+        Set<Genre> genres = track.getGenres();
+        for(Genre genre : genres){
+            out.println(genre);
+        }
+
     }
 
     public List <CD> getCDs(){
@@ -161,13 +168,18 @@ public class CDLibrary {
     }
 
     public List <CD> findCDByGenre(Genre genre){
-        List<CD> foundByGenre = CDs.stream().filter(cd -> cd.getGenre().equals(genre)).collect(Collectors.toList());
+        List<CD> foundByGenre = CDs.stream().filter(cd -> cd.getGenres().contains(genre)).collect(Collectors.toList());
         return foundByGenre;
     }
 
     public List <Track> findTracksByGenre(Genre genre){
-        List<Track> foundByGenre = CDs.stream().flatMap(cd -> cd.getTracks().stream().filter(track -> track.getGenre().equals(genre))).collect(Collectors.toList());
+        List<Track> foundByGenre = CDs.stream().flatMap(cd -> cd.getTracks().stream().filter(track -> track.getGenres()
+                .contains(genre))).collect(Collectors.toList());
         return foundByGenre;
     }
 
+    public Optional<CD> findCDByUUID(UUID uuid){
+        Optional<CD> result = CDs.stream().filter(cd -> cd.getUuid().equals(uuid)).findAny();
+        return result;
+    }
 }
